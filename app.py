@@ -1,3 +1,4 @@
+import streamlit as st
 from agents import (
     classification_agent,
     disposal_agent,
@@ -8,67 +9,79 @@ from agents import (
     city_impact,
     what_if_simulator
 )
-import streamlit as st
-from agents import *
 
-st.set_page_config(page_title="EcoCycle AI", page_icon="🌱", layout="centered")
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="EcoCycle AI",
+    page_icon="🌱",
+    layout="wide"
+)
 
-# HEADER
-st.markdown("<h1 style='text-align:center;'>🌱 EcoCycle AI</h1>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align:center;'>AI Waste Intelligence + City Impact Simulator</h4>", unsafe_allow_html=True)
+# ---------------- HEADER ----------------
+st.markdown("""
+    <h1 style='text-align:center; color:#2ecc71;'>🌱 EcoCycle AI</h1>
+    <h4 style='text-align:center; color:gray;'>
+    AI-Powered Waste Intelligence + City Impact Simulator
+    </h4>
+""", unsafe_allow_html=True)
 
 st.markdown("---")
 
-# INPUT
-user_input = st.text_input("Enter waste item", placeholder="plastic bottle, battery, food waste...")
+# ---------------- INPUT SECTION ----------------
+col1, col2 = st.columns([2, 1])
 
-if st.button("Analyze Waste"):
+with col1:
+    user_input = st.text_input(
+        "Enter Waste Item",
+        placeholder="e.g., plastic bottle, battery, food waste..."
+    )
 
-    category = classification_agent(user_input)
-    disposal = disposal_agent(category)
-    impact = impact_agent(category)
-    education = education_agent(category)
-    score = eco_score(category)
-    level = user_level(score)
-    city = city_impact(category)
-    whatif = what_if_simulator(category)
+with col2:
+    st.markdown("### 🔥 Examples")
+    st.write("• plastic bottle")
+    st.write("• battery charger")
+    st.write("• food waste")
+    st.write("• broken phone")
 
-    # RESULTS
-    st.markdown("## ♻ Waste Intelligence Report")
+# ---------------- ANALYZE BUTTON ----------------
+if st.button("🚀 Analyze Waste"):
 
-    col1, col2 = st.columns(2)
+    if not user_input.strip():
+        st.warning("Please enter a waste item")
+    else:
 
-    with col1:
-        st.success(f"Category: {category.upper()}")
-        st.info(disposal)
+        # ---------------- AGENTS ----------------
+        category = classification_agent(user_input)
+        disposal = disposal_agent(category)
+        impact = impact_agent(category)
+        education = education_agent(category)
+        score = eco_score(category)
+        level = user_level(score)
+        city = city_impact(category)
+        whatif = what_if_simulator(category)
 
-    with col2:
-        st.warning(impact)
-        st.write(education)
+        # ---------------- DASHBOARD TITLE ----------------
+        st.markdown("## 📊 Waste Intelligence Dashboard")
 
-    st.markdown("---")
+        # ---------------- METRICS ----------------
+        c1, c2, c3 = st.columns(3)
 
-    # SCORE
-    st.markdown("## 📊 Eco Score")
-    st.progress(score / 100)
-    st.subheader(f"Score: {score}/100")
+        with c1:
+            st.metric("♻ Waste Type", category.upper())
 
-    # LEVEL (NEW WINNER FEATURE)
-    st.markdown("## 🏅 Your Sustainability Level")
-    st.success(level)
+        with c2:
+            st.metric("📊 Eco Score", f"{score}/100")
 
-    st.markdown("---")
+        with c3:
+            st.metric("🏅 User Level", level)
 
-    # CITY IMPACT
-    st.markdown("## 🌍 City Impact Simulation")
-    st.info(city)
+        st.markdown("---")
 
-    st.markdown("---")
+        # ---------------- MAIN CONTENT ----------------
+        left, right = st.columns(2)
 
-    # WHAT IF SIMULATOR (KEY WINNER FEATURE)
-    st.markdown("## 🔥 What-If Simulator")
-    st.success(whatif)
+        with left:
+            st.markdown("### ♻ Disposal Recommendation")
+            st.success(disposal)
 
-# FOOTER
-st.markdown("---")
-st.caption("Built for SDG 12 🌱 | EcoCycle AI | Hackathon Project")
+            st.markdown("### 📘 Sustainability
