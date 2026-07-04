@@ -7,7 +7,7 @@ from agents import (
     eco_score,
     user_level,
     city_simulator,
-    what_if_simulator
+    
 )
 
 # ---------------- PAGE CONFIG ----------------
