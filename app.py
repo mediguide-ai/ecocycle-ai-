@@ -16,6 +16,8 @@ from agents import (
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="EcoCycle AI - Final Boss", page_icon="🌱", layout="wide")
 
+DEMO_MODE = st.sidebar.toggle("🎭 Demo Mode (Judge Presentation)", value=True)
+
 # ---------------- HERO ----------------
 st.markdown("""
 <h1 style='text-align:center; color:#00ff99;'>🌱 EcoCycle AI - Final Boss</h1>
