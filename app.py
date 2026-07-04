@@ -60,6 +60,7 @@ if st.button("🚀 Analyze Waste", key="analyze_btn"):
         level = user_level(score)
         city = city_impact(category)
         whatif = what_if_simulator(category)
+        city_data = city_simulator()
 
         # ---------------- TITLE ----------------
         st.markdown("## 📊 Waste Analysis Dashboard")
@@ -117,6 +118,20 @@ if st.button("🚀 Analyze Waste", key="analyze_btn"):
         st.success(whatif)
 
         st.markdown("---")
+        st.markdown("## 🌍 EcoCity Intelligence Dashboard")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("Daily Waste", city_data["daily_waste"])
+
+with col2:
+    st.metric("Recycling Efficiency", city_data["recycling_efficiency"])
+
+with col3:
+    st.metric("CO₂ Impact", city_data["co2_impact"])
+
+st.info("📈 Prediction: " + city_data["prediction"])
 
 import streamlit as st
 
