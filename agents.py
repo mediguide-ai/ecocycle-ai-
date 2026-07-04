@@ -14,29 +14,29 @@ def classification_agent(text):
 
 def disposal_agent(cat):
     return {
-        "plastic": "Recycle properly",
-        "e-waste": "Dispose at e-waste center",
-        "food": "Compost it",
+        "plastic": "Recycle in proper bin",
+        "e-waste": "Dispose at certified e-waste center",
+        "food": "Compost organic waste",
         "glass": "Send to recycling plant",
-        "general": "Follow local rules"
+        "general": "Follow municipal rules"
     }.get(cat, "")
 
 
 def impact_agent(cat):
     return {
-        "plastic": "High pollution impact",
-        "e-waste": "Toxic metals risk",
-        "food": "Methane emissions",
-        "glass": "Energy consumption"
+        "plastic": "High pollution, long decomposition time",
+        "e-waste": "Toxic metals contaminate soil",
+        "food": "Methane emissions in landfill",
+        "glass": "Energy intensive recycling"
     }.get(cat, "")
 
 
 def education_agent(cat):
     return {
-        "plastic": "Avoid single-use plastic",
-        "e-waste": "Recycle electronics",
-        "food": "Reduce waste",
-        "glass": "Reuse items"
+        "plastic": "Use reusable alternatives",
+        "e-waste": "Recycle electronics responsibly",
+        "food": "Reduce food waste",
+        "glass": "Reuse containers"
     }.get(cat, "")
 
 
@@ -63,5 +63,5 @@ def city_simulator():
         "daily_waste": "120 Tons",
         "recycling_rate": "42%",
         "co2_impact": "High",
-        "prediction": "Waste rising 8% monthly"
+        "prediction": "Waste increasing 8% monthly"
     }
