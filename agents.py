@@ -4,10 +4,11 @@ import os
 api_key = os.getenv("GOOGLE_API_KEY")
 
 if not api_key:
-    raise Exception("GOOGLE_API_KEY not found in Streamlit Secrets")
+    raise Exception("GOOGLE_API_KEY missing")
 
 genai.configure(api_key=api_key)
 
+# ✅ MOST STABLE MODEL (IMPORTANT FIX)
 model = genai.GenerativeModel("gemini-pro")
 
 def classification_agent(user_input):
