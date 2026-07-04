@@ -1,51 +1,69 @@
-# ---------------- WASTE CLASSIFICATION AGENT ----------------
 def classification_agent(text):
     text = text.lower()
 
     if "plastic" in text or "bottle" in text:
         return "plastic"
-    elif "battery" in text or "cell" in text:
-        return "battery"
-    elif "food" in text or "leftover" in text:
+    elif "battery" in text or "phone" in text:
+        return "e-waste"
+    elif "food" in text:
         return "food"
     elif "glass" in text:
         return "glass"
-    elif "phone" in text or "laptop" in text or "electronic" in text:
-        return "e-waste"
     else:
-        return "general waste"
+        return "general"
 
 
-# ---------------- DISPOSAL AGENT ----------------
-def disposal_agent(category):
+def disposal_agent(cat):
     return {
-        "plastic": "♻ Recycle in dry waste bin or recycling center",
-        "battery": "⚠ Dispose at certified e-waste facility",
-        "food": "🌱 Compost or organic waste bin",
-        "glass": "♻ Send to glass recycling unit",
-        "e-waste": "🔌 Hand over to authorized e-waste recycler",
-        "general waste": "🗑 Follow local municipal guidelines"
-    }.get(category, "No guideline available")
+        "plastic": "Recycle in plastic waste bin",
+        "e-waste": "Dispose at certified e-waste center",
+        "food": "Compost organic waste",
+        "glass": "Send to glass recycling plant",
+        "general": "Follow municipal waste rules"
+    }.get(cat, "No data")
 
 
-# ---------------- IMPACT AGENT ----------------
-def impact_agent(category):
+def impact_agent(cat):
     return {
-        "plastic": "High pollution risk, takes 100+ years to decompose",
-        "battery": "Toxic chemicals can contaminate soil & water",
-        "food": "Produces methane gas in landfills",
-        "glass": "Energy-intensive recycling but reusable",
-        "e-waste": "Releases heavy metals like lead & mercury",
-        "general waste": "Mixed environmental impact"
-    }.get(category, "")
+        "plastic": "High pollution and long decomposition time",
+        "e-waste": "Toxic metals contaminate soil and water",
+        "food": "Produces methane in landfills",
+        "glass": "Energy intensive recycling"
+    }.get(cat, "No data")
 
 
-# ---------------- EDUCATION AGENT ----------------
-def education_agent(category):
+def education_agent(cat):
     return {
-        "plastic": "Use reusable bags and bottles",
-        "battery": "Switch to rechargeable batteries",
-        "food": "Plan meals to reduce food waste",
-        "glass": "Reuse jars and containers",
-        "e-waste": "Donate or recycle electronics responsibly",
-        "general waste": "
+        "plastic": "Use reusable alternatives",
+        "e-waste": "Recycle electronics responsibly",
+        "food": "Reduce food waste",
+        "glass": "Reuse containers"
+    }.get(cat, "No data")
+
+
+def eco_score(cat):
+    return {
+        "plastic": 60,
+        "e-waste": 90,
+        "food": 40,
+        "glass": 50,
+        "general": 55
+    }.get(cat, 50)
+
+
+def user_level(score):
+    if score >= 80:
+        return "Eco Champion"
+    elif score >= 60:
+        return "Responsible Citizen"
+    else:
+        return "Beginner"
+
+
+def city_simulator():
+    return {
+        "daily_waste": "120 Tons",
+        "recycling_rate": "42%",
+        "co2_impact": "High",
+        "prediction": "Waste will increase by 8% in next 30 days"
+    }
