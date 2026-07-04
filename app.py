@@ -1,3 +1,13 @@
+from agents import (
+    classification_agent,
+    disposal_agent,
+    impact_agent,
+    education_agent,
+    eco_score,
+    user_level,
+    city_impact,
+    what_if_simulator
+)
 import streamlit as st
 from agents import *
 
