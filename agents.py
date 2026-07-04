@@ -73,7 +73,13 @@ def city_impact(cat):
         "e-waste": "If 10,000 users → heavy metal leakage risk"
     }.get(cat, "No data")
 
-
+def city_simulator():
+    return {
+        "daily_waste": "120 tons/day",
+        "recycling_efficiency": "42%",
+        "co2_impact": "High",
+        "prediction": "Waste expected to increase by 8% next month."
+    }
 def what_if_simulator(cat):
     return {
         "plastic": "Reducing plastic by 30% → major landfill reduction",
