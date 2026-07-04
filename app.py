@@ -123,17 +123,9 @@ if st.button("🚀 Analyze Waste", key="analyze_btn"):
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("Daily Waste", city_data["daily_waste"])
-
-with col2:
-    st.metric("Recycling Efficiency", city_data["recycling_efficiency"])
-
-with col3:
-    st.metric("CO₂ Impact", city_data["co2_impact"])
-
-st.info("📈 Prediction: " + city_data["prediction"])
-
 import streamlit as st
+import plotly.express as px
+import pandas as pd
 
 from agents import (
     classification_agent,
@@ -142,78 +134,120 @@ from agents import (
     education_agent,
     eco_score,
     user_level,
-    city_impact,
-    what_if_simulator
+    city_simulator
 )
 
-st.set_page_config(page_title="EcoCycle AI", page_icon="🌱", layout="wide")
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="EcoCycle AI",
+    page_icon="🌱",
+    layout="wide"
+)
 
-# HEADER
-st.markdown("<h1 style='text-align:center; color:#2ecc71;'>🌱 EcoCycle AI</h1>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align:center; color:gray;'>AI Waste Intelligence System</h4>", unsafe_allow_html=True)
+# ---------------- CUSTOM CSS ----------------
+st.markdown("""
+<style>
+.main {
+    background-color: #0e1117;
+}
+h1, h2, h3 {
+    color: #2ecc71;
+}
+.stMetric {
+    background-color: #1c1f26;
+    padding: 15px;
+    border-radius: 12px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------- HEADER ----------------
+st.markdown("<h1 style='text-align:center;'>🌱 EcoCycle AI v3.0</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center;color:gray;'>Smart Waste Intelligence & City Impact System</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
-# INPUT
-user_input = st.text_input("Enter waste item", placeholder="plastic bottle, battery, food waste...")
+# ---------------- SIDEBAR ----------------
+st.sidebar.title("🌍 Control Panel")
+mode = st.sidebar.selectbox("Choose Mode", ["Single Analysis", "City Dashboard"])
 
-# BUTTON
-if st.button("🚀 Analyze Waste"):
+st.sidebar.info("EcoCycle AI helps analyze waste and simulate environmental impact.")
 
-    if not user_input.strip():
-        st.warning("Please enter a waste item")
+# ---------------- CITY MODE ----------------
+if mode == "City Dashboard":
 
-    else:
+    st.markdown("## 🌍 Smart City Simulation")
 
-        # AI PIPELINE
-        category = classification_agent(user_input)
-        disposal = disposal_agent(category)
-        impact = impact_agent(category)
-        education = education_agent(category)
-        score = eco_score(category)
-        level = user_level(score)
-        city = city_impact(category)
-        whatif = what_if_simulator(category)
+    city = city_simulator()
 
-        # DASHBOARD
-        st.markdown("## 📊 Results Dashboard")
+    col1, col2, col3 = st.columns(3)
 
-        col1, col2, col3 = st.columns(3)
+    col1.metric("Daily Waste", city["daily_waste"])
+    col2.metric("Recycling Rate", city["recycling_rate"])
+    col3.metric("CO₂ Impact", city["co2_impact"])
 
-        with col1:
-            st.metric("Waste Type", category.upper())
+    data = pd.DataFrame({
+        "Category": ["Plastic", "Food", "E-Waste", "Glass"],
+        "Percentage": [35, 30, 20, 15]
+    })
 
-        with col2:
-            st.metric("Eco Score", f"{score}/100")
+    fig = px.pie(data, names="Category", values="Percentage", title="Waste Distribution")
+    st.plotly_chart(fig, use_container_width=True)
 
-        with col3:
-            st.metric("User Level", level)
+    st.success("📈 Prediction: " + city["prediction"])
 
-        st.markdown("---")
+# ---------------- SINGLE ANALYSIS MODE ----------------
+else:
 
-        # DETAILS
-        st.markdown("## ♻ Recommendations")
+    st.markdown("## 🧾 Waste Analysis Engine")
 
-        st.success(disposal)
-        st.warning(impact)
-        st.info(education)
+    user_input = st.text_input("Enter waste item", placeholder="plastic bottle, battery, food waste...")
 
-        st.markdown("---")
+    if st.button("🚀 Analyze", key="analyze"):
 
-        # CITY IMPACT
-        st.markdown("## 🌍 City Impact Simulation")
-        st.error(city)
+        if not user_input.strip():
+            st.warning("Please enter a waste item")
+        else:
 
-        st.markdown("---")
+            # ---------------- AGENTS ----------------
+            category = classification_agent(user_input)
+            disposal = disposal_agent(category)
+            impact = impact_agent(category)
+            education = education_agent(category)
+            score = eco_score(category)
+            level = user_level(score)
 
-        # SCORE
-        st.markdown("## 📊 Environmental Score")
-        st.progress(score / 100)
+            # ---------------- DASHBOARD ----------------
+            col1, col2, col3 = st.columns(3)
 
-        # WHAT IF
-        st.markdown("## 🔥 What-If Simulator")
-        st.success(whatif)
+            col1.metric("Waste Type", category.upper())
+            col2.metric("Eco Score", f"{score}/100")
+            col3.metric("User Level", level)
 
-# FOOTER
+            st.markdown("---")
+
+            # ---------------- DETAILS ----------------
+            st.subheader("♻ Disposal Guide")
+            st.success(disposal)
+
+            st.subheader("⚠ Environmental Impact")
+            st.warning(impact)
+
+            st.subheader("📘 Education Tip")
+            st.info(education)
+
+            # ---------------- SCORE CHART ----------------
+            st.subheader("📊 Eco Score Visualization")
+
+            fig = px.bar(
+                x=["Eco Score", "Remaining Impact"],
+                y=[score, 100 - score],
+                color=["Eco Score", "Remaining Impact"],
+                title="Sustainability Breakdown"
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+# ---------------- FOOTER ----------------
 st.markdown("---")
-st.caption("Built for SDG 12 🌱 | EcoCycle AI")
+st.markdown("<p style='text-align:center;color:gray;'>Built for SDG 12 🌱 | EcoCycle AI</p>", unsafe_allow_html=True)
