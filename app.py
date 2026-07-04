@@ -138,15 +138,17 @@ st.markdown(
     unsafe_allow_html=True
 )
         # ---------------- METRICS ----------------
-col1, col2, col3 = st.columns(3)
+ col1, col2, col3 = st.columns(3)
 
-        with col1:
+
+ 
+with col1:
             st.metric("♻ Waste Type", category.upper())
 
-        with col2:
+with col2:
             st.metric("📊 Eco Score", f"{score}/100")
 
-        with col3:
+with col3:
             st.metric("🏅 User Level", level)
 
         st.markdown("---")
