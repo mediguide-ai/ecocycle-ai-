@@ -14,39 +14,39 @@ def classification_agent(text):
 
 def disposal_agent(cat):
     return {
-        "plastic": "Recycle in plastic recovery units",
+        "plastic": "Recycle in industrial plastic recovery system",
         "e-waste": "Send to certified e-waste facility",
-        "food": "Compost organic waste",
-        "glass": "Recycle glass material",
-        "general": "Follow municipal waste guidelines"
+        "food": "Compost or bio-waste processing",
+        "glass": "Recycle into new glass products",
+        "general": "Follow municipal waste segregation rules"
     }.get(cat, "")
 
 
 def impact_agent(cat):
     return {
-        "plastic": "Long-term ocean pollution risk",
-        "e-waste": "Toxic heavy metal leakage",
-        "food": "Methane emission in landfills",
+        "plastic": "Ocean pollution, microplastic generation",
+        "e-waste": "Heavy metal contamination",
+        "food": "Methane emission from landfill",
         "glass": "High energy recycling cost"
     }.get(cat, "")
 
 
 def education_agent(cat):
     return {
-        "plastic": "Switch to reusable materials",
-        "e-waste": "Recycle electronics responsibly",
-        "food": "Reduce food wastage",
-        "glass": "Reuse containers"
+        "plastic": "Use reusable alternatives",
+        "e-waste": "Recycle electronics properly",
+        "food": "Reduce food waste habits",
+        "glass": "Reuse containers when possible"
     }.get(cat, "")
 
 
 def eco_score(cat):
     return {
-        "plastic": 55,
+        "plastic": 50,
         "e-waste": 85,
         "food": 45,
         "glass": 60,
-        "general": 50
+        "general": 55
     }.get(cat, 50)
 
 
@@ -54,14 +54,14 @@ def user_level(score):
     if score >= 80:
         return "🌟 Eco Master"
     elif score >= 60:
-        return "🌿 Responsible User"
+        return "🌿 Responsible Citizen"
     return "🌱 Beginner"
 
 
 def city_simulator():
     return {
-        "daily_waste": "135 Tons",
-        "recycling_rate": "48%",
-        "co2_impact": "Medium",
-        "prediction": "Waste growth stabilizing due to recycling policies"
+        "daily_waste": "150 Tons",
+        "recycling_rate": "52%",
+        "co2_impact": "Moderate",
+        "prediction": "Smart recycling policies improving city sustainability"
     }
