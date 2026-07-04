@@ -1,40 +1,53 @@
-import json
+import google.generativeai as genai
+import os
 
-data = {
-    "plastic": {
-        "disposal": "Put in dry waste / recycling bin",
-        "impact": "Reduces landfill waste and pollution",
-        "tip": "Avoid single-use plastic items"
-    },
-    "glass": {
-        "disposal": "Recycle in glass bin",
-        "impact": "Glass can be recycled many times",
-        "tip": "Do not mix with ceramics"
-    },
-    "battery": {
-        "disposal": "Take to e-waste collection center",
-        "impact": "Prevents toxic soil contamination",
-        "tip": "Never throw batteries in trash"
-    },
-    "food": {
-        "disposal": "Compost organic waste",
-        "impact": "Reduces methane emissions",
-        "tip": "Separate wet and dry waste"
-    }
-}
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-def classification_agent(text):
-    text = text.lower()
-    for key in data:
-        if key in text:
-            return key
-    return "unknown"
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+def classification_agent(user_input):
+
+    prompt = f"""
+    Classify this waste into one word:
+    plastic, glass, battery, food, e-waste, metal, other.
+
+    Waste: {user_input}
+    """
+
+    try:
+        response = model.generate_content(prompt)
+        return response.text.strip().lower()
+    except:
+        return "unknown"
 
 def disposal_agent(category):
-    return data.get(category, {}).get("disposal", "No info")
+    data = {
+        "plastic": "Recycle in dry waste bin",
+        "glass": "Send to glass recycling center",
+        "battery": "Dispose at e-waste facility",
+        "food": "Compost organic waste",
+        "e-waste": "Take to authorized center"
+    }
+    return data.get(category, "Check local rules")
 
 def impact_agent(category):
-    return data.get(category, {}).get("impact", "No info")
+    data = {
+        "plastic": "Takes hundreds of years to decompose",
+        "battery": "Highly toxic to soil and water",
+        "glass": "Reusable but energy intensive",
+        "food": "Produces methane if dumped",
+        "e-waste": "Contains heavy metals"
+    }
+    return data.get(category, "Moderate environmental impact")
 
+def education_agent(category):
+    data = {
+        "plastic": "Avoid single-use plastic",
+        "battery": "Use rechargeable batteries",
+        "food": "Segregate wet waste",
+        "glass": "Reuse before recycling",
+        "e-waste": "Recycle responsibly"
+    }
+    return data.get(category, "Follow proper waste segregation")
 def education_agent(category):
     return data.get(category, {}).get("tip", "Segregate waste properly")
