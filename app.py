@@ -4,6 +4,8 @@ from agents import classification_agent, disposal_agent, impact_agent, education
 st.set_page_config(page_title="EcoCycle AI", page_icon="🌱")
 
 st.title("🌱 EcoCycle AI")
+st.markdown("🌍 EcoCycle AI helps reduce waste mismanagement using AI-driven decision agents.")
+st.markdown("---")
 st.markdown("### Multi-Agent Smart Waste Management System")
 
 user_input = st.text_input("Enter waste item (e.g., plastic bottle, battery, food waste)")
