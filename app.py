@@ -1,10 +1,10 @@
 import streamlit as st
-from agents import classification_agent, disposal_agent, impact_agent, education_agent
+from agents import classification_agent, disposal_agent, impact_agent, education_agent, eco_score
 
 st.set_page_config(page_title="EcoCycle AI", page_icon="🌱")
 
 st.title("🌱 EcoCycle AI")
-st.subheader("Multi-Agent Smart Waste Management System")
+st.markdown("### Multi-Agent Smart Waste Management System")
 
 user_input = st.text_input("Enter waste item (e.g., plastic bottle, battery, food waste)")
 
@@ -14,19 +14,27 @@ if st.button("Analyze Waste"):
     disposal = disposal_agent(category)
     impact = impact_agent(category)
     tip = education_agent(category)
+    score = eco_score(category)
 
-    st.markdown("## 🧠 Analysis Report")
+    st.markdown("## 🧠 AI Agent Flow")
 
-    st.success(f"🏷 Waste Type: {category.upper()}")
+    st.code(f"""
+Planner Agent → understands input
+Classification Agent → {category}
+Decision Agent → disposal plan generated
+Impact Agent → environmental impact analyzed
+Education Agent → sustainability tip generated
+""")
 
-    st.markdown("### ♻ Disposal")
+    st.markdown("## 📊 Eco Score")
+    st.progress(score)
+    st.write(f"Environmental Impact Score: {score}/100")
+
+    st.markdown("## ♻ Result")
+    st.success(f"Waste Type: {category.upper()}")
     st.info(disposal)
-
-    st.markdown("### 🌍 Impact")
     st.warning(impact)
-
-    st.markdown("### 📘 Eco Tip")
     st.write(tip)
 
 st.markdown("---")
-st.caption("Built for Sustainable Development Goals 🌍")
+st.caption("Built for UN Sustainable Development Goals 🌍")
