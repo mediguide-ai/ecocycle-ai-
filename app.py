@@ -58,7 +58,7 @@ if st.button("🚀 Analyze Waste", key="analyze_btn"):
         education = education_agent(category)
         score = eco_score(category)
         level = user_level(score)
-        city = city_impact(category)
+        city = city_simulator()
         whatif = what_if_simulator(category)
         city_data = city_simulator()
 
