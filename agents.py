@@ -3,39 +3,40 @@ def classification_agent(text):
 
     if "plastic" in text:
         return "plastic"
-    if "battery" in text:
+    elif "battery" in text:
         return "e-waste"
-    if "food" in text:
+    elif "food" in text:
         return "food"
-    if "glass" in text:
+    elif "glass" in text:
         return "glass"
-    return "general"
+    else:
+        return "general"
 
 
 def disposal_agent(cat):
     return {
-        "plastic": "Recycle in proper bin",
-        "e-waste": "Dispose at certified e-waste center",
+        "plastic": "Recycle in plastic waste bin",
+        "e-waste": "Dispose at e-waste center",
         "food": "Compost organic waste",
-        "glass": "Send to recycling plant",
-        "general": "Follow municipal rules"
+        "glass": "Recycle glass properly",
+        "general": "Follow municipal waste rules"
     }.get(cat, "")
 
 
 def impact_agent(cat):
     return {
-        "plastic": "High pollution, long decomposition time",
-        "e-waste": "Toxic metals contaminate soil",
-        "food": "Methane emissions in landfill",
+        "plastic": "High pollution, long degradation time",
+        "e-waste": "Releases toxic metals",
+        "food": "Produces methane in landfill",
         "glass": "Energy intensive recycling"
     }.get(cat, "")
 
 
 def education_agent(cat):
     return {
-        "plastic": "Use reusable alternatives",
+        "plastic": "Use reusable bags",
         "e-waste": "Recycle electronics responsibly",
-        "food": "Reduce food waste",
+        "food": "Avoid food waste",
         "glass": "Reuse containers"
     }.get(cat, "")
 
@@ -55,7 +56,8 @@ def user_level(score):
         return "Eco Champion"
     elif score >= 60:
         return "Responsible Citizen"
-    return "Beginner"
+    else:
+        return "Beginner"
 
 
 def city_simulator():
