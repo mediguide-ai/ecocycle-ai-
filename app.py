@@ -1,51 +1,68 @@
 import streamlit as st
+import streamlit as st
 from agents import classification_agent, disposal_agent, impact_agent, education_agent, eco_score
 
-st.set_page_config(page_title="EcoCycle AI", page_icon="🌱")
+st.set_page_config(page_title="EcoCycle AI", page_icon="🌱", layout="centered")
 
+# Header
 st.title("🌱 EcoCycle AI")
-st.markdown("🌍 EcoCycle AI helps reduce waste mismanagement using AI-driven decision agents.")
-st.markdown("---")
 st.markdown("### Multi-Agent Smart Waste Management System")
+st.markdown("🌍 AI-powered waste classification aligned with SDG 12 (Responsible Consumption & Production)")
+st.markdown("---")
+
+# Examples section
 st.markdown("### 🔥 Try Examples")
 st.write("• plastic bottle")
 st.write("• battery charger")
 st.write("• food waste")
 st.write("• broken phone")
 st.markdown("---")
-user_input = st.text_input("Enter waste item", placeholder="e.g., plastic bottle, battery, food waste")
+
+# Input
+user_input = st.text_input(
+    "Enter waste item",
+    placeholder="e.g., plastic bottle, battery, food waste"
+)
+
+# Button
 if st.button("Analyze Waste"):
 
-    category = classification_agent(user_input)
-    disposal = disposal_agent(category)
-    impact = impact_agent(category)
-    tip = education_agent(category)
-    score = eco_score(category)
+    if not user_input.strip():
+        st.warning("⚠ Please enter a waste item")
+    else:
 
-    st.markdown("## 🧠 AI Agent Flow")
+        # Agents pipeline
+        category = classification_agent(user_input)
+        disposal = disposal_agent(category)
+        impact = impact_agent(category)
+        education = education_agent(category)
+        score = eco_score(category)
 
-    st.code(f"""
-Planner Agent → understands input
-Classification Agent → {category}
-Decision Agent → disposal plan generated
-Impact Agent → environmental impact analyzed
-Education Agent → sustainability tip generated
-""")
+        # Results section
+        st.markdown("## ♻ Results")
 
-    st.markdown("## 📊 Eco Score")
-    st.progress(score)
-    st.write(f"Environmental Impact Score: {score}/100")
+        col1, col2 = st.columns(2)
 
-st.markdown("## 📊 Eco Score")
+        with col1:
+            st.success(f"🧠 Waste Type: {category.upper()}")
+            st.info(f"♻ Disposal: {disposal}")
 
-st.progress(score)
+        with col2:
+            st.warning(f"⚠ Impact: {impact}")
+            st.write(f"📘 Tip: {education}")
 
-if score >= 80:
-    st.error(f"High Environmental Impact: {score}/100")
-elif score >= 50:
-    st.warning(f"Moderate Environmental Impact: {score}/100")
-else:
-    st.success(f"Low Environmental Impact: {score}/100")
+        # Eco score
+        st.markdown("## 📊 Eco Score")
 
+        st.progress(score / 100)
+
+        if score >= 80:
+            st.error(f"🔴 High Environmental Impact: {score}/100")
+        elif score >= 50:
+            st.warning(f"🟠 Moderate Environmental Impact: {score}/100")
+        else:
+            st.success(f"🟢 Low Environmental Impact: {score}/100")
+
+# Footer
 st.markdown("---")
-st.caption("Built for UN Sustainable Development Goals 🌍")
+st.caption("Built for UN Sustainable Development Goal 12 🌱 | EcoCycle AI")
