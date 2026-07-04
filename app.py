@@ -19,31 +19,33 @@ st.set_page_config(
 
 # ---------------- HEADER ----------------
 st.markdown("""
-    <h1 style='text-align:center; color:#2ecc71;'>🌱 EcoCycle AI</h1>
-    <h4 style='text-align:center; color:gray;'>
-    AI-Powered Waste Intelligence + City Impact Simulator
-    </h4>
+    <div style="text-align:center;">
+        <h1 style="color:#2ecc71;">🌱 EcoCycle AI</h1>
+        <h4 style="color:gray;">AI Waste Intelligence + Environmental Impact Simulator</h4>
+    </div>
 """, unsafe_allow_html=True)
 
 st.markdown("---")
 
-# ---------------- INPUT SECTION ----------------
-col1, col2 = st.columns([2, 1])
+# ---------------- SIDEBAR ----------------
+st.sidebar.title("🌍 EcoCycle Dashboard")
+st.sidebar.info("This system analyzes waste, predicts environmental impact, and gives sustainability guidance.")
 
-with col1:
-    user_input = st.text_input(
-        "Enter Waste Item",
-        placeholder="e.g., plastic bottle, battery, food waste..."
-    )
+st.sidebar.markdown("### 🔥 Example Inputs")
+st.sidebar.write("• plastic bottle")
+st.sidebar.write("• battery charger")
+st.sidebar.write("• food waste")
+st.sidebar.write("• broken phone")
 
-with col2:
-    st.markdown("### 🔥 Examples")
-    st.write("• plastic bottle")
-    st.write("• battery charger")
-    st.write("• food waste")
-    st.write("• broken phone")
+# ---------------- INPUT ----------------
+st.markdown("## 🧾 Enter Waste Item")
 
-# ---------------- ANALYZE BUTTON ----------------
+user_input = st.text_input(
+    "",
+    placeholder="Type waste item here..."
+)
+
+# ---------------- BUTTON ----------------
 if st.button("🚀 Analyze Waste"):
 
     if not user_input.strip():
@@ -60,28 +62,78 @@ if st.button("🚀 Analyze Waste"):
         city = city_impact(category)
         whatif = what_if_simulator(category)
 
-        # ---------------- DASHBOARD TITLE ----------------
-        st.markdown("## 📊 Waste Intelligence Dashboard")
+        # ---------------- TITLE ----------------
+        st.markdown("## 📊 Waste Analysis Dashboard")
 
         # ---------------- METRICS ----------------
-        c1, c2, c3 = st.columns(3)
+        col1, col2, col3 = st.columns(3)
 
-        with c1:
+        with col1:
             st.metric("♻ Waste Type", category.upper())
 
-        with c2:
+        with col2:
             st.metric("📊 Eco Score", f"{score}/100")
 
-        with c3:
+        with col3:
             st.metric("🏅 User Level", level)
 
         st.markdown("---")
 
-        # ---------------- MAIN CONTENT ----------------
+        # ---------------- MAIN LAYOUT ----------------
         left, right = st.columns(2)
 
         with left:
-            st.markdown("### ♻ Disposal Recommendation")
+            st.markdown("### ♻ Disposal Guide")
             st.success(disposal)
 
-            st.markdown("### 📘 Sustainability
+            st.markdown("### 📘 Sustainability Tip")
+            st.info(education)
+
+        with right:
+            st.markdown("### ⚠ Environmental Impact")
+            st.warning(impact)
+
+            st.markdown("### 🌍 City Impact Simulation")
+            st.error(city)
+
+        st.markdown("---")
+
+        # ---------------- ECO SCORE ----------------
+        st.markdown("## 🌱 Environmental Impact Score")
+
+        st.progress(score / 100)
+
+        if score >= 85:
+            st.error("🔴 High Environmental Risk")
+        elif score >= 60:
+            st.warning("🟠 Moderate Environmental Risk")
+        else:
+            st.success("🟢 Low Environmental Risk")
+
+        st.markdown("---")
+
+        # ---------------- WHAT IF ----------------
+        st.markdown("## 🔥 What-If Simulation Engine")
+
+        st.success(whatif)
+
+        st.markdown("---")
+
+        # ---------------- AI FLOW ----------------
+        st.markdown("## 🧠 AI Multi-Agent Flow")
+
+        st.code(f"""
+Input → Classification Agent → {category}
+       → Disposal Agent → {disposal}
+       → Impact Agent → {impact}
+       → Education Agent → {education}
+       → Eco Score Engine → {score}
+       → Behavior Engine → {level}
+""")
+
+# ---------------- FOOTER ----------------
+st.markdown("---")
+st.markdown(
+    "<div style='text-align:center; color:gray;'>🌱 Built for UN SDG 12 | EcoCycle AI | Hackathon Project</div>",
+    unsafe_allow_html=True
+)
