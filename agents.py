@@ -1,53 +1,57 @@
 import google.generativeai as genai
 import os
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+api_key = os.getenv("GOOGLE_API_KEY")
+
+if not api_key:
+    raise Exception("GOOGLE_API_KEY not found in Streamlit Secrets")
+
+genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-def classification_agent(user_input):
 
+def classification_agent(user_input):
     prompt = f"""
-    Classify this waste into one word:
+    Classify waste into ONE word only:
     plastic, glass, battery, food, e-waste, metal, other.
 
-    Waste: {user_input}
+    Input: {user_input}
     """
 
-    try:
-        response = model.generate_content(prompt)
-        return response.text.strip().lower()
-    except:
-        return "unknown"
+    response = model.generate_content(prompt)
+    return response.text.strip().lower()
+
 
 def disposal_agent(category):
-    data = {
+    mapping = {
         "plastic": "Recycle in dry waste bin",
-        "glass": "Send to glass recycling center",
+        "glass": "Send to recycling center",
         "battery": "Dispose at e-waste facility",
         "food": "Compost organic waste",
-        "e-waste": "Take to authorized center"
+        "e-waste": "Take to certified e-waste center",
+        "metal": "Send to scrap recycling"
     }
-    return data.get(category, "Check local rules")
+    return mapping.get(category, "Follow local waste rules")
+
 
 def impact_agent(category):
-    data = {
-        "plastic": "Takes hundreds of years to decompose",
-        "battery": "Highly toxic to soil and water",
+    mapping = {
+        "plastic": "High pollution, 500+ years to degrade",
+        "battery": "Toxic chemicals harm soil and water",
         "glass": "Reusable but energy intensive",
-        "food": "Produces methane if dumped",
+        "food": "Produces methane in landfill",
         "e-waste": "Contains heavy metals"
     }
-    return data.get(category, "Moderate environmental impact")
+    return mapping.get(category, "Moderate impact")
+
 
 def education_agent(category):
-    data = {
-        "plastic": "Avoid single-use plastic",
-        "battery": "Use rechargeable batteries",
-        "food": "Segregate wet waste",
+    mapping = {
+        "plastic": "Avoid single-use plastics",
         "glass": "Reuse before recycling",
+        "battery": "Use rechargeable options",
+        "food": "Separate wet/dry waste",
         "e-waste": "Recycle responsibly"
     }
-    return data.get(category, "Follow proper waste segregation")
-def education_agent(category):
-    return data.get(category, {}).get("tip", "Segregate waste properly")
+    return mapping.get(category, "Practice waste segregation")
