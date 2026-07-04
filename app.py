@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
 
 from agents import (
@@ -12,26 +13,26 @@ from agents import (
     city_simulator
 )
 
-# ---------------- PAGE CONFIG ----------------
-st.set_page_config(page_title="EcoCycle AI", page_icon="🌱", layout="wide")
+# ---------------- CONFIG ----------------
+st.set_page_config(page_title="EcoCycle AI v4", page_icon="🌱", layout="wide")
 
-# ---------------- HEADER ----------------
-st.markdown("<h1 style='text-align:center; color:#2ecc71;'>🌱 EcoCycle AI</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center;'>Smart Waste Intelligence System</p>", unsafe_allow_html=True)
+# ---------------- HERO HEADER ----------------
+st.markdown("""
+<h1 style='text-align:center; color:#00ff88;'>🌱 EcoCycle AI v4</h1>
+<p style='text-align:center; color:gray;'>AI-Powered Sustainability Intelligence System</p>
+""", unsafe_allow_html=True)
 
 st.markdown("---")
 
 # ---------------- SIDEBAR ----------------
-mode = st.sidebar.selectbox("Select Mode", ["Waste Analysis", "City Simulation"])
+mode = st.sidebar.selectbox("Select Mode", ["Waste Intelligence", "City Command Center"])
 
-st.sidebar.info("AI-powered waste classification & sustainability insights")
+# =====================================================
+# 🌍 CITY MODE (UPGRADED)
+# =====================================================
+if mode == "City Command Center":
 
-# ======================================================
-# 🌍 CITY SIMULATION
-# ======================================================
-if mode == "City Simulation":
-
-    st.subheader("🌍 City Impact Simulation")
+    st.subheader("🌍 Smart City Control Dashboard")
 
     city = city_simulator()
 
@@ -46,31 +47,33 @@ if mode == "City Simulation":
     with col3:
         st.metric("CO₂ Impact", city["co2_impact"])
 
-    st.markdown("---")
+    st.markdown("### 📊 City Waste Composition")
 
-    data = pd.DataFrame({
-        "Category": ["Plastic", "Food", "E-Waste", "Glass"],
-        "Percentage": [35, 30, 20, 15]
+    df = pd.DataFrame({
+        "Type": ["Plastic", "Food", "E-Waste", "Glass", "Other"],
+        "Value": [35, 30, 20, 10, 5]
     })
 
-    fig = px.pie(data, names="Category", values="Percentage", title="Waste Distribution")
+    fig = px.pie(df, names="Type", values="Value", hole=0.4,
+                 color_discrete_sequence=px.colors.sequential.Greens)
+
     st.plotly_chart(fig, use_container_width=True)
 
-    st.success("📊 Prediction: " + city["prediction"])
+    st.success("📈 Forecast: " + city["prediction"])
 
-# ======================================================
-# 🧾 WASTE ANALYSIS
-# ======================================================
+# =====================================================
+# 🧠 WASTE INTELLIGENCE MODE
+# =====================================================
 else:
 
-    st.subheader("🧾 Waste Analysis Engine")
+    st.subheader("🧠 AI Waste Intelligence Engine")
 
-    user_input = st.text_input("Enter waste item (plastic, battery, food, glass)")
+    user_input = st.text_input("Enter waste item")
 
-    if st.button("Analyze Waste"):
+    if st.button("Analyze Now 🚀"):
 
-        if user_input.strip() == "":
-            st.warning("Please enter a waste item")
+        if not user_input.strip():
+            st.warning("Please enter waste item")
         else:
 
             # ---------------- AI PIPELINE ----------------
@@ -81,40 +84,46 @@ else:
             score = eco_score(category)
             level = user_level(score)
 
-            # ---------------- RESULTS ----------------
+            # ---------------- TOP METRICS ----------------
             col1, col2, col3 = st.columns(3)
 
             with col1:
                 st.metric("Waste Type", category.upper())
 
             with col2:
-                st.metric("Eco Score", f"{score}/100")
+                st.metric("Eco Level", level)
 
             with col3:
-                st.metric("User Level", level)
+                st.metric("Score", f"{score}/100")
 
             st.markdown("---")
 
-            st.subheader("♻ Disposal Guide")
+            # ---------------- GAUGE (WINNER FEATURE) ----------------
+            st.subheader("🌱 Sustainability Score Meter")
+
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=score,
+                title={'text': "Eco Score"},
+                gauge={
+                    'axis': {'range': [0, 100]},
+                    'bar': {'color': "green"},
+                    'steps': [
+                        {'range': [0, 40], 'color': "red"},
+                        {'range': [40, 70], 'color': "yellow"},
+                        {'range': [70, 100], 'color': "green"},
+                    ],
+                }
+            ))
+
+            st.plotly_chart(fig, use_container_width=True)
+
+            # ---------------- INSIGHTS ----------------
+            st.subheader("♻ Disposal Guidance")
             st.success(disposal)
 
             st.subheader("⚠ Environmental Impact")
             st.warning(impact)
 
-            st.subheader("📘 Education Tip")
+            st.subheader("📘 Sustainability Tip")
             st.info(education)
-
-            # ---------------- CHART ----------------
-            st.subheader("📊 Eco Score Visualization")
-
-            fig = px.bar(
-                x=["Eco Score", "Impact"],
-                y=[score, 100 - score],
-                color=["Eco Score", "Impact"]
-            )
-
-            st.plotly_chart(fig, use_container_width=True)
-
-# ---------------- FOOTER ----------------
-st.markdown("---")
-st.markdown("<p style='text-align:center; color:gray;'>Built for SDG 12 🌱</p>", unsafe_allow_html=True)
