@@ -46,8 +46,7 @@ user_input = st.text_input(
 )
 
 # ---------------- BUTTON ----------------
-if st.button("🚀 Analyze Waste"):
-
+if st.button("🚀 Analyze Waste", key="analyze_btn"):
     if not user_input.strip():
         st.warning("Please enter a waste item")
     else:
