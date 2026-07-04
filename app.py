@@ -114,7 +114,7 @@ if st.button("🚀 Analyze Waste", key="analyze_btn"):
         # ---------------- WHAT IF ----------------
         st.markdown("## 🔥 What-If Simulation Engine")
 
-        st.success(whatif)
+    
 
 import streamlit as st
 import plotly.express as px
