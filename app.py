@@ -36,11 +36,16 @@ Education Agent → sustainability tip generated
     st.progress(score)
     st.write(f"Environmental Impact Score: {score}/100")
 
-    st.markdown("## ♻ Result")
-    st.success(f"Waste Type: {category.upper()}")
-    st.info(disposal)
-    st.warning(impact)
-    st.write(tip)
+st.markdown("## 📊 Eco Score")
+
+st.progress(score)
+
+if score >= 80:
+    st.error(f"High Environmental Impact: {score}/100")
+elif score >= 50:
+    st.warning(f"Moderate Environmental Impact: {score}/100")
+else:
+    st.success(f"Low Environmental Impact: {score}/100")
 
 st.markdown("---")
 st.caption("Built for UN Sustainable Development Goals 🌍")
