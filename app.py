@@ -13,8 +13,7 @@ st.write("• battery charger")
 st.write("• food waste")
 st.write("• broken phone")
 st.markdown("---")
-user_input = st.text_input("Enter waste item (e.g., plastic bottle, battery, food waste)")
-
+user_input = st.text_input("Enter waste item", placeholder="e.g., plastic bottle, battery, food waste")
 if st.button("Analyze Waste"):
 
     category = classification_agent(user_input)
