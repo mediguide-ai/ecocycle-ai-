@@ -1,52 +1,50 @@
 def classification_agent(text):
     text = text.lower()
 
-    if any(x in text for x in ["plastic", "bottle", "bag", "wrapper"]):
+    if "plastic" in text or "bottle" in text:
         return "plastic"
-    if any(x in text for x in ["battery", "charger", "cell"]):
+    if "battery" in text or "charger" in text:
         return "battery"
-    if any(x in text for x in ["food", "fruit", "leftover"]):
+    if "food" in text or "leftover" in text:
         return "food"
-    if any(x in text for x in ["glass", "jar"]):
+    if "glass" in text:
         return "glass"
-    if any(x in text for x in ["phone", "laptop", "tv", "electronics", "e-waste"]):
+    if "phone" in text or "laptop" in text:
         return "e-waste"
     return "other"
 
 
 def disposal_agent(cat):
     return {
-        "plastic": "♻ Recycle in dry waste bin",
-        "battery": "⚠ E-waste facility required",
-        "food": "🌱 Compost organic waste",
-        "glass": "♻ Glass recycling plant",
-        "e-waste": "⚠ Certified e-waste recycler",
-        "other": "📍 Follow municipal guidelines"
+        "plastic": "Recycle in dry waste bin",
+        "battery": "Dispose at e-waste center",
+        "food": "Compost organic waste",
+        "glass": "Send to recycling facility",
+        "e-waste": "Certified e-waste disposal required",
+        "other": "Follow local rules"
     }.get(cat, "")
 
 
 def impact_agent(cat):
     return {
-        "plastic": "High pollution • 400+ years decomposition",
-        "battery": "Toxic soil + water contamination",
-        "food": "Methane emissions in landfills",
-        "glass": "Energy intensive recycling",
-        "e-waste": "Heavy metal leakage risk",
-        "other": "Moderate impact"
+        "plastic": "High pollution, long decomposition time",
+        "battery": "Toxic soil and water contamination",
+        "food": "Methane emission in landfills",
+        "glass": "Energy-intensive recycling",
+        "e-waste": "Heavy metal pollution risk"
     }.get(cat, "")
 
 
 def education_agent(cat):
     return {
         "plastic": "Avoid single-use plastics",
-        "battery": "Switch to rechargeable options",
+        "battery": "Use rechargeable alternatives",
         "food": "Reduce food waste",
         "glass": "Reuse before recycling",
         "e-waste": "Recycle responsibly"
-    }.get(cat, "Follow sustainable habits")
+    }.get(cat, "")
 
 
-# 🌍 ECO SCORE
 def eco_score(cat):
     return {
         "plastic": 70,
@@ -58,33 +56,29 @@ def eco_score(cat):
     }.get(cat, 50)
 
 
-# 🏅 BEHAVIOR ENGINE (NEW WINNER FEATURE)
 def user_level(score):
     if score >= 85:
-        return "🌳 Sustainability Leader"
+        return "Green Hero"
     elif score >= 60:
-        return "🌿 Responsible Citizen"
-    else:
-        return "🌱 Eco Beginner"
+        return "Responsible Citizen"
+    return "Eco Beginner"
 
 
-# 🌍 CITY IMPACT (UPGRADED)
 def city_impact(cat):
     return {
-        "plastic": "If 10,000 users → severe landfill pressure increase",
-        "battery": "If 10,000 users → toxic contamination risk rises sharply",
-        "food": "If 10,000 users → high methane emission surge",
-        "glass": "If 10,000 users → energy demand increases",
+        "plastic": "If 10,000 users → landfill pressure increases significantly",
+        "battery": "If 10,000 users → toxic contamination risk rises",
+        "food": "If 10,000 users → methane emissions surge",
+        "glass": "If 10,000 users → recycling demand increases",
         "e-waste": "If 10,000 users → heavy metal leakage risk"
-    }.get(cat, "No simulation available")
+    }.get(cat, "No data")
 
 
-# 🔥 WHAT-IF SIMULATOR (WINNING FEATURE)
 def what_if_simulator(cat):
     return {
-        "plastic": "Reducing plastic by 30% → landfill load ↓ 25%",
-        "battery": "Proper disposal → toxicity risk ↓ 60%",
-        "food": "Composting → methane emissions ↓ 40%",
-        "glass": "Recycling reuse → energy savings ↑ 35%",
-        "e-waste": "Safe recycling → pollution ↓ 70%"
-    }.get(cat, "Behavior improvement reduces environmental impact")
+        "plastic": "Reducing plastic by 30% → major landfill reduction",
+        "battery": "Proper disposal → toxicity reduced by 60%",
+        "food": "Composting → methane reduced by 40%",
+        "glass": "Recycling → energy saved by 35%",
+        "e-waste": "Safe recycling → pollution reduced by 70%"
+    }.get(cat, "Behavior change improves environment")
