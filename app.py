@@ -14,25 +14,25 @@ from agents import (
 )
 
 # ---------------- CONFIG ----------------
-st.set_page_config(page_title="EcoCycle AI v4", page_icon="🌱", layout="wide")
+st.set_page_config(page_title="EcoCycle AI - Final Boss", page_icon="🌱", layout="wide")
 
-# ---------------- HERO HEADER ----------------
+# ---------------- HERO ----------------
 st.markdown("""
-<h1 style='text-align:center; color:#00ff88;'>🌱 EcoCycle AI v4</h1>
-<p style='text-align:center; color:gray;'>AI-Powered Sustainability Intelligence System</p>
+<h1 style='text-align:center; color:#00ff99;'>🌱 EcoCycle AI - Final Boss</h1>
+<p style='text-align:center; color:gray;'>AI-Powered Sustainability Intelligence Platform</p>
 """, unsafe_allow_html=True)
 
 st.markdown("---")
 
 # ---------------- SIDEBAR ----------------
-mode = st.sidebar.selectbox("Select Mode", ["Waste Intelligence", "City Command Center"])
+mode = st.sidebar.selectbox("Select Mode", ["AI Waste Brain", "City Intelligence Engine"])
 
 # =====================================================
-# 🌍 CITY MODE (UPGRADED)
+# 🌍 CITY MODE (FINAL BOSS)
 # =====================================================
-if mode == "City Command Center":
+if mode == "City Intelligence Engine":
 
-    st.subheader("🌍 Smart City Control Dashboard")
+    st.subheader("🌍 Smart City Command Center")
 
     city = city_simulator()
 
@@ -47,36 +47,36 @@ if mode == "City Command Center":
     with col3:
         st.metric("CO₂ Impact", city["co2_impact"])
 
-    st.markdown("### 📊 City Waste Composition")
+    st.markdown("### 📊 City Waste Distribution")
 
     df = pd.DataFrame({
-        "Type": ["Plastic", "Food", "E-Waste", "Glass", "Other"],
-        "Value": [35, 30, 20, 10, 5]
+        "Category": ["Plastic", "Food", "E-Waste", "Glass", "Other"],
+        "Value": [40, 25, 20, 10, 5]
     })
 
-    fig = px.pie(df, names="Type", values="Value", hole=0.4,
+    fig = px.pie(df, names="Category", values="Value",
                  color_discrete_sequence=px.colors.sequential.Greens)
 
     st.plotly_chart(fig, use_container_width=True)
 
-    st.success("📈 Forecast: " + city["prediction"])
+    st.success("📈 AI Forecast: " + city["prediction"])
 
 # =====================================================
-# 🧠 WASTE INTELLIGENCE MODE
+# 🧠 AI WASTE BRAIN (FINAL BOSS)
 # =====================================================
 else:
 
-    st.subheader("🧠 AI Waste Intelligence Engine")
+    st.subheader("🧠 AI Waste Intelligence Brain")
 
     user_input = st.text_input("Enter waste item")
 
-    if st.button("Analyze Now 🚀"):
+    if st.button("Analyze Waste 🚀"):
 
         if not user_input.strip():
-            st.warning("Please enter waste item")
+            st.warning("Enter a waste item")
         else:
 
-            # ---------------- AI PIPELINE ----------------
+            # ---------------- AI ENGINE ----------------
             category = classification_agent(user_input)
             disposal = disposal_agent(category)
             impact = impact_agent(category)
@@ -84,7 +84,7 @@ else:
             score = eco_score(category)
             level = user_level(score)
 
-            # ---------------- TOP METRICS ----------------
+            # ---------------- METRICS ----------------
             col1, col2, col3 = st.columns(3)
 
             with col1:
@@ -98,8 +98,8 @@ else:
 
             st.markdown("---")
 
-            # ---------------- GAUGE (WINNER FEATURE) ----------------
-            st.subheader("🌱 Sustainability Score Meter")
+            # ---------------- GAUGE (FINAL BOSS FEATURE) ----------------
+            st.subheader("🌱 Sustainability Score Engine")
 
             fig = go.Figure(go.Indicator(
                 mode="gauge+number",
@@ -107,10 +107,10 @@ else:
                 title={'text': "Eco Score"},
                 gauge={
                     'axis': {'range': [0, 100]},
-                    'bar': {'color': "green"},
+                    'bar': {'color': "#00ff99"},
                     'steps': [
                         {'range': [0, 40], 'color': "red"},
-                        {'range': [40, 70], 'color': "yellow"},
+                        {'range': [40, 70], 'color': "orange"},
                         {'range': [70, 100], 'color': "green"},
                     ],
                 }
@@ -119,11 +119,24 @@ else:
             st.plotly_chart(fig, use_container_width=True)
 
             # ---------------- INSIGHTS ----------------
-            st.subheader("♻ Disposal Guidance")
+            st.subheader("♻ Disposal Strategy")
             st.success(disposal)
 
             st.subheader("⚠ Environmental Impact")
             st.warning(impact)
 
-            st.subheader("📘 Sustainability Tip")
+            st.subheader("📘 Smart Recommendation")
             st.info(education)
+
+            # ---------------- DOWNLOAD REPORT (WOW FEATURE) ----------------
+            report = f"""
+EcoCycle AI Report
+------------------
+Waste Type: {category}
+Eco Score: {score}
+Level: {level}
+Disposal: {disposal}
+Impact: {impact}
+"""
+
+            st.download_button("📄 Download Report", report, file_name="eco_report.txt")
