@@ -1,69 +1,67 @@
 def classification_agent(text):
     text = text.lower()
 
-    if "plastic" in text:
+    if "plastic" in text or "bottle" in text:
         return "plastic"
-    elif "battery" in text:
+    if "battery" in text or "phone" in text:
         return "e-waste"
-    elif "food" in text:
+    if "food" in text:
         return "food"
-    elif "glass" in text:
+    if "glass" in text:
         return "glass"
-    else:
-        return "general"
+    return "general"
 
 
 def disposal_agent(cat):
     return {
-        "plastic": "Recycle in plastic waste bin",
-        "e-waste": "Dispose at e-waste center",
+        "plastic": "Recycle in plastic recovery units",
+        "e-waste": "Send to certified e-waste facility",
         "food": "Compost organic waste",
-        "glass": "Recycle glass properly",
-        "general": "Follow municipal waste rules"
+        "glass": "Recycle glass material",
+        "general": "Follow municipal waste guidelines"
     }.get(cat, "")
 
 
 def impact_agent(cat):
     return {
-        "plastic": "High pollution, long degradation time",
-        "e-waste": "Releases toxic metals",
-        "food": "Produces methane in landfill",
-        "glass": "Energy intensive recycling"
+        "plastic": "Long-term ocean pollution risk",
+        "e-waste": "Toxic heavy metal leakage",
+        "food": "Methane emission in landfills",
+        "glass": "High energy recycling cost"
     }.get(cat, "")
 
 
 def education_agent(cat):
     return {
-        "plastic": "Use reusable bags",
+        "plastic": "Switch to reusable materials",
         "e-waste": "Recycle electronics responsibly",
-        "food": "Avoid food waste",
+        "food": "Reduce food wastage",
         "glass": "Reuse containers"
     }.get(cat, "")
 
 
 def eco_score(cat):
     return {
-        "plastic": 60,
-        "e-waste": 90,
-        "food": 40,
-        "glass": 50,
-        "general": 55
+        "plastic": 55,
+        "e-waste": 85,
+        "food": 45,
+        "glass": 60,
+        "general": 50
     }.get(cat, 50)
 
 
 def user_level(score):
     if score >= 80:
-        return "Eco Champion"
+        return "🌟 Eco Master"
     elif score >= 60:
-        return "Responsible Citizen"
-    else:
-        return "Beginner"
+        return "🌿 Responsible User"
+    return "🌱 Beginner"
 
 
 def city_simulator():
     return {
-        "daily_waste": "120 Tons",
-        "recycling_rate": "42%",
-        "co2_impact": "High",
-        "prediction": "Waste increasing 8% monthly"
+        "daily_waste": "135 Tons",
+        "recycling_rate": "48%",
+        "co2_impact": "Medium",
+        "prediction": "Waste growth stabilizing due to recycling policies"
     }
