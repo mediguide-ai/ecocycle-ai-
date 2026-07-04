@@ -6,7 +6,7 @@ from agents import (
     education_agent,
     eco_score,
     user_level,
-    city_impact,
+    city_simulator,
     what_if_simulator
 )
 
