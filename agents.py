@@ -1,6 +1,6 @@
 import os
 from google import genai
-model="gemini-1.5-pro"
+model="gemini-pro"
 api_key = os.getenv("GOOGLE_API_KEY")
 
 if not api_key:
